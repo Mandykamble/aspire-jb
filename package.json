@@ -4,10 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon main.js"
+
   },
   "keywords": [],
-  "author": "Megha Bose",
+  "author": "Ankur DG",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,5 +25,8 @@
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "validator": "^13.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
