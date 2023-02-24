@@ -25,8 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect to MongoDB
 // To localhost
-mongoose.connect('mongodb+srv://Nidhish:gofVgBxqPi9JOIqm@cluster0.nuz1fzr.mongodb.net/mentorship?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://Nidhish:gofVgBxqPi9JOIqm@cluster0.nuz1fzr.mongodb.net/mentorship?retryWrites=true&w=majority', { useNewUrlParser: true,
+useUnifiedTopology: true,
+useCreateIndex: true,
+useFindAndModify: true, });
 const connection = mongoose.connection;
+
+
 connection.once('open', function() {
     console.log("MongoDB database connection established successfully !");
 })
