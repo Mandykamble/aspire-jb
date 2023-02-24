@@ -1,36 +1,47 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-// const cookieParser = require("cookie-parser");
-const JobRoute = require("./routes/jobs.js");
-dotenv.config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const passport = require("passport");
 const app = express();
-const PORT = 3000 || process.env.PORT;
+const PORT = 4000;
+const DB_NAME = "JobsPlanet"
+
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+
+// routes
+var testAPIRouter = require("./routes/testAPI");
+var UserRouter = require("./routes/users.routes");
+var JobRouter = require("./routes/job.routes");
+var ApplicationRouter = require("./routes/application.routes");
+
+app.use(cors());
+// Body-Parser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Connect to MongoDB
+// To localhost
+mongoose.connect('mongodb+srv://Nidhish:gofVgBxqPi9JOIqm@cluster0.nuz1fzr.mongodb.net/mentorship?retryWrites=true&w=majority', { useNewUrlParser: true,
+useUnifiedTopology: true,
+useCreateIndex: true,
+useFindAndModify: true, });
+const connection = mongoose.connection;
 
 
-// Body-parser middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-// app.use(cookieParser());
+connection.once('open', function() {
+    console.log("MongoDB database connection established successfully !");
+})
 
-// connecting db
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.URI, () => {
-  console.log("Db connected");
-});
-console.log(mongoose.connection.readyState);
+// setup API endpoints
+app.use("/api/testAPI", testAPIRouter);
+app.use("/api/user", UserRouter);
+app.use("/api/job", JobRouter);
+app.use("/api/application", ApplicationRouter);
 
-// const getUser = () => undefined;
-
-
-
-//middleware
-// app.use(errorHandler);
-app.use("/api/jobs/",JobRoute);
-
-// app.use(cookieParser());
-
-// listining port
-app.listen(PORT, (req, res) => {
-  console.log(`server is listining on port http://localhost:${PORT}`);
+app.listen(PORT, function() {
+    console.log("Server is running on Port: " + PORT);
 });

@@ -1,7 +1,7 @@
 
 const jwt = require("jsonwebtoken");
 
-const Job= require("../models/jobs.js");
+const Job= require("../models/job.model.js");
 
 // const cookieParser = require("cookie-parser");
 // Body-parser middleware
